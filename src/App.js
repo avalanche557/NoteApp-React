@@ -3,6 +3,7 @@ import './App.css';
 import SideBarCompoment from './sidebar/sideBar';
 
 import EditorComponent from './editor/editor';
+import { async } from 'q';
 
 const firebase = require('firebase');
 
@@ -37,7 +38,7 @@ class App extends React.Component {
             selectedNoteIndex: index,
             selectedNote: note
         }, () => {
-            console.log(this.state.selectedNote);
+            console.log('seleted',this.state.selectedNote);
 
         })
     }
@@ -74,12 +75,15 @@ class App extends React.Component {
         })
     }
 
-    deleteNote = (note) => {
+    deleteNote = async (note) => {
         const noteIndex = this.state.notes.indexOf(note);
+        await this.setState({
+            notes: this.state.notes.filter(_note => _note !== note)
+        })
         if (this.state.selectedNoteIndex === noteIndex) {
             this.setState({
                 selectedNoteIndex: null,
-                selectNote: null
+                selectedNote: null
             })
         } else {
             this.state.notes.length > 1 ?

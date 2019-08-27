@@ -31,19 +31,26 @@ class SideBarCompoment extends React.Component {
 
     newNote = () => {
         console.log(this.state);
+        this.props.newNote(this.state.title);
+        this.setState({
+            addingNote: !this.state.addingNote,
+            title: null 
+        })
     }
 
-    selectNote = () => {
-        console.log('select note');  
+    selectNote = (note, index) => {
+        this.props.selectNote(note, index);
     }
 
-    deleteNote = () => {
-        console.log('delete google'); 
+    deleteNote = (note) => {
+        console.log('delete google');
+        this.props.deleteNote(note);
+
     }
 
     render() {
         const { notes, classes, selectedNoteIndex } = this.props;
-        if(notes){
+        if (notes) {
             return (
                 <div className={classes.sidebarContainer}>
                     <Button
@@ -69,14 +76,14 @@ class SideBarCompoment extends React.Component {
                                     Submit Note
                                 </Button>
                             </div>
-    
+
                             :
                             null
                     }
                     <List>
                         {
                             notes.map((note, index) => {
-                                return(
+                                return (
                                     <div key={index}>
                                         <SidebarItemComponent
                                             note={note}
@@ -85,7 +92,6 @@ class SideBarCompoment extends React.Component {
                                             selectNote={this.selectNote}
                                             deleteNote={this.deleteNote}
                                         >
-    
                                         </SidebarItemComponent>
                                         <Divider></Divider>
                                     </div>
@@ -96,7 +102,7 @@ class SideBarCompoment extends React.Component {
                 </div>
             )
         } else {
-            return(
+            return (
                 <div>
                     Add a Note!
                 </div>
